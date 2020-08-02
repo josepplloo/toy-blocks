@@ -8,4 +8,6 @@ export default {
   contentBackground: "#f8f8f8",
   border: "#aaaaaa",
   white: "#ffffff",
+  mischka: "#DFDEE0",
+  indigo: "#5B65C2"
 };

@@ -9,7 +9,8 @@ import Node from "../components/Node";
 
 describe("<Nodes />", () => {
   const actions = {
-    checkNodeStatuses: jest.fn()
+    checkNodeStatuses: jest.fn(),
+    checkBlocksStatuses: jest.fn()
   };
 
   const nodes = {
@@ -29,11 +30,30 @@ describe("<Nodes />", () => {
     ]
   };
 
+  const blocks = {
+    list: [
+      {
+        url: 'https://thawing-springs-53971.herokuapp.com',
+        online: false,
+        name: 'Node 1',
+        loading: false
+      },
+      {
+        url: 'https://secret-lowlands-62331.herokuapp.com',
+        online: false,
+        name: 'Node 2',
+        loading: false
+      }
+    ]
+  };
+
+  const state = { ...blocks, ...nodes };
+
   it("should contain <Node />", () => {
     const wrapper = shallow(
       <Nodes
         actions={actions}
-        nodes={nodes}
+        nodes={state}
       />
     );
 
@@ -42,7 +62,7 @@ describe("<Nodes />", () => {
 
   it("should match snapshot", () => {
     const middlewares = [thunk];
-    const store = configureMockStore(middlewares)({nodes});
+    const store = configureMockStore(middlewares)({state});
     const component = create(
       <Provider store={store}>
         <ConnectedNodes />

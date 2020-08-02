@@ -1,9 +1,18 @@
+import thunk from 'redux-thunk';
+import { createStore, applyMiddleware, compose } from 'redux';
+import { configure } from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+
 import * as ActionTypes from '../constants/actionTypes';
 import reducer from './nodes';
+import reducers from '.'
 import initialState from './initialState';
 
+configure({ adapter: new Adapter() });
 
 describe('Reducers::Nodes', () => {
+  let store = {};
+
   const getInitialState = () => {
     return initialState().nodes;
   };
@@ -25,6 +34,13 @@ describe('Reducers::Nodes', () => {
     const expected = getInitialState();
 
     expect(reducer(undefined, action)).toEqual(expected);
+  });
+
+  it('should create the initial state', () => {
+    store = createStore(reducers, compose(applyMiddleware(thunk)));
+    const actualState = store.getState();
+    const expectedState = initialState();
+    expect(actualState).toMatchObject(expectedState);
   });
 
   it('should handle CHECK_NODE_STATUS_START', () => {

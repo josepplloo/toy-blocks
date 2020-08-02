@@ -11,8 +11,9 @@ import {
 } from "@material-ui/core";
 import colors from "../constants/colors";
 import Status from "./Status";
+import Blocks from "../containers/Blocks";
 
-const Node = ({ node, expanded, toggleNodeExpanded }) => {
+const Node = ({ node, blocks, expanded, toggleNodeExpanded }) => {
   const classes = useStyles();
   return (
     <ExpansionPanel
@@ -46,7 +47,7 @@ const Node = ({ node, expanded, toggleNodeExpanded }) => {
         </Box>
       </ExpansionPanelSummary>
       <ExpansionPanelDetails>
-        <Typography>Blocks go here</Typography>
+        <Blocks url={node.url} blocks={blocks} />
       </ExpansionPanelDetails>
     </ExpansionPanel>
   );
@@ -99,6 +100,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 Node.propTypes = {
+  blocks: PropTypes.object,
   node: PropTypes.shape({
     url: PropTypes.string,
     online: PropTypes.bool,
