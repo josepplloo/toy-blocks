@@ -4,14 +4,18 @@ import configureMockStore from "redux-mock-store";
 import thunk from 'redux-thunk';
 import { Provider } from "react-redux";
 import { create } from "react-test-renderer";
-import ConnectedNodes, { Nodes } from "./Nodes";
+import { Nodes } from "./Nodes";
 import Node from "../components/Node";
+
 
 describe("<Nodes />", () => {
   const actions = {
     checkNodeStatuses: jest.fn(),
-    checkBlocksStatuses: jest.fn()
   };
+
+  const blocksActions = {
+    checkBlocksStatuses: jest.fn(),
+  }
 
   const nodes = {
     list: [
@@ -34,14 +38,12 @@ describe("<Nodes />", () => {
     list: [
       {
         url: 'https://thawing-springs-53971.herokuapp.com',
-        online: false,
-        name: 'Node 1',
+        blocks: [],
         loading: false
       },
       {
         url: 'https://secret-lowlands-62331.herokuapp.com',
-        online: false,
-        name: 'Node 2',
+        blocks: [],
         loading: false
       }
     ]
@@ -54,6 +56,8 @@ describe("<Nodes />", () => {
       <Nodes
         actions={actions}
         nodes={state}
+        blocksActions={blocksActions}
+        blocks={blocks}
       />
     );
 
@@ -65,7 +69,12 @@ describe("<Nodes />", () => {
     const store = configureMockStore(middlewares)({state});
     const component = create(
       <Provider store={store}>
-        <ConnectedNodes />
+        <Nodes
+          actions={actions}
+          nodes={state}
+          blocksActions={blocksActions}
+          blocks={blocks}
+        />
       </Provider>
     );
     const tree = component.toJSON();
